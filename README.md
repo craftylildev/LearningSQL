@@ -1,4 +1,4 @@
---1. Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
+1. Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
 ```
 SELECT 
  FirstName, 
@@ -6,14 +6,14 @@ SELECT
  CustomerID, 
  Country 
 FROM Customer 
-WHERE Country != 'USA';
+WHERE Country != 'USA'
 ```
 
-2.Provide a query only showing the Customers from Brazil.
+1. Provide a query only showing the Customers from Brazil.
 ```
 SELECT * 
 FROM Customer 
-WHERE Country = 'Brazil';
+WHERE Country = 'Brazil'
 ```
 
 3. Provide a query showing the Invoices of customers who are from Brazil. The resultant table should show the customer's full name, Invoice ID, Date of the invoice and billing country.
@@ -25,7 +25,7 @@ SELECT
   i.BillingCountry
 FROM Customer as c 
 INNER JOIN Invoice i on i.CustomerId = c.CustomerId
-WHERE i.BillingCountry = 'Brazil';
+WHERE i.BillingCountry = 'Brazil'
 ```
 
 4. Provide a query showing only the Employees who are Sales Agents.
@@ -33,7 +33,7 @@ WHERE i.BillingCountry = 'Brazil';
 SELECT
   e.*
 FROM Employee as e
-WHERE e.Title = 'Sales Support Agent';
+WHERE e.Title = 'Sales Support Agent'
 ```
 
 5. Provide a query showing a unique list of billing countries from the Invoice table.
@@ -42,7 +42,7 @@ SELECT *
 FROM Invoice
 WHERE BillingCountry = 'Belgium' 
 OR BillingCountry = 'Canada'
-OR BillingCountry = 'Ireland';
+OR BillingCountry = 'Ireland'
 ```
 
 6. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
@@ -50,16 +50,48 @@ OR BillingCountry = 'Ireland';
 SELECT
   e.FirstName || " " || e.LastName,
   i.InvoiceId
-From Employee as e
+FROM Employee as e
 INNER JOIN Customer c on e.EmployeeId = c.SupportRepId
-INNER JOIN Invoice i on c.CustomerId = i.CustomerId;
+INNER JOIN Invoice i on c.CustomerId = i.CustomerId
 ```
 
 7. Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
-
+```
+SELECT
+  i.Total,
+  c.FirstName || " " || c.LastName,
+  c.Country,
+  e.FirstName || " " || e.LastName
+FROM Invoice as i
+INNER JOIN Customer c on i.CustomerId = c.CustomerId
+INNER JOIN Employee e on e.EmployeeId = c.SupportRepId
+```
 
 8. How many Invoices were there in 2009 and 2011? What are the respective total sales for each of those years?(include both the answers and the queries used to find the answers)
+```
+SELECT
+  SUM(Total),  
+  strftime('%Y', InvoiceDate) as InvoiceYear,
+  COUNT(Total)
+FROM Invoice 
+WHERE strftime('%Y', InvoiceDate)
+IN ('2009')
+UNION
+SELECT
+  SUM(Total),  
+  strftime('%Y', InvoiceDate) as InvoiceYear,
+  COUNT(Total)
+FROM Invoice 
+WHERE strftime('%Y', InvoiceDate)
+IN ('2011')
 
+```
+```
+Answers:
+YEAR - COUNT - TOTAL
+2009 - 83    - 449.4600000000003
+2011 - 83    - 469.5800000000003
+```
 
 9. Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for Invoice ID 37.
 
