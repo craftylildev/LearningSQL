@@ -290,7 +290,7 @@ LIMIT 3
 ```
 
 **25.** Provide a query that shows the most purchased Media Type.
-
+```
 SELECT
   MediaType,
   MAX(TotalSales)
@@ -303,8 +303,7 @@ FROM
     INNER JOIN InvoiceLine il on il.TrackId = t.TrackId
     GROUP BY MediaType
   )
-
-
+```
 - - -
 
 ## Learning SQL Through Doing
